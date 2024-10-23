@@ -1,4 +1,4 @@
-name: CI Build, Test and Push to GHCR and DockerHub
+name: CI Build, Test and Push to GHCR
 
 on:
   push:
@@ -42,22 +42,9 @@ jobs:
         username: ${{ github.actor }}
         password: ${{ secrets.GHCR_TOKEN }}
 
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v2
-      with:
-        username: mirel1
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}  
-
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v5
       with:
         context: .
         push: true
         tags: ghcr.io/mymirelhub/test:latest
-
-    - name: Build and Push DockerHub Image
-      uses: docker/build-push-action@v5
-      with:
-        context: .
-        push: true
-        tags: docker.io/mirel1/test:latest
